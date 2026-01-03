@@ -4,13 +4,7 @@ import {
   Menu, 
   X, 
   GraduationCap,
-  ChevronDown,
-  MessageCircle,
-  Facebook,
-  Youtube,
-  Instagram,
-  Twitter,
-  CreditCard
+  ChevronDown
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -44,15 +38,6 @@ const Navbar = () => {
     { name: 'Alumni' },
     { name: 'Gallery' },
     { name: 'Contact Us' }
-  ];
-
-  const socialLinks = [
-    { icon: MessageCircle, href: 'https://wa.me/919975047841', label: 'WhatsApp', color: 'bg-green-500 hover:bg-green-600' },
-    { icon: Facebook, href: 'https://facebook.com/montfortschoolnagpur', label: 'Facebook', color: 'bg-blue-600 hover:bg-blue-700' },
-    { icon: Youtube, href: 'https://youtube.com/montfortschoolnagpur', label: 'YouTube', color: 'bg-red-600 hover:bg-red-700' },
-    { icon: Instagram, href: 'https://instagram.com/montfortschoolnagpur', label: 'Instagram', color: 'bg-gradient-to-br from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700' },
-    { icon: Twitter, href: 'https://twitter.com/montfortschoolnagpur', label: 'Twitter', color: 'bg-sky-500 hover:bg-sky-600' },
-    { icon: CreditCard, href: '/fees', label: 'Fees', color: 'bg-[#c5a059] hover:bg-[#b08d4a]' }
   ];
 
   const aboutLinks = [
@@ -211,27 +196,6 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Social Media Widget */}
-        <div className="hidden lg:flex items-center space-x-2">
-          {socialLinks.map((social, index) => (
-            <motion.a
-              key={social.label}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`w-8 h-8 ${social.color} rounded-full flex items-center justify-center text-white transition-all duration-300 shadow-lg hover:shadow-xl`}
-              aria-label={social.label}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.2 + index * 0.1 }}
-              whileHover={{ scale: 1.2, rotate: 5 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <social.icon size={16} />
-            </motion.a>
-          ))}
-        </div>
-
         {/* Mobile Menu */}
         <AnimatePresence>
           {mobileMenu && (
@@ -335,30 +299,6 @@ const Navbar = () => {
                   <button className="w-full bg-[#c5a059] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#b08d4a] transition-all mt-6">
                     Contact Us
                   </button>
-                  
-                  {/* Mobile Social Media */}
-                  <div className="mt-8 pt-6 border-t border-gray-200">
-                    <p className="text-sm font-medium text-gray-700 mb-4">Follow Us</p>
-                    <div className="flex space-x-3">
-                      {socialLinks.map((social, index) => (
-                        <motion.a
-                          key={social.label}
-                          href={social.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`w-10 h-10 ${social.color} rounded-full flex items-center justify-center text-white transition-all duration-300 shadow-lg`}
-                          aria-label={social.label}
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.8 + index * 0.1 }}
-                          whileHover={{ scale: 1.1, rotate: 5 }}
-                          whileTap={{ scale: 0.9 }}
-                        >
-                          <social.icon size={18} />
-                        </motion.a>
-                      ))}
-                    </div>
-                  </div>
                 </div>
               </div>
             </motion.div>
