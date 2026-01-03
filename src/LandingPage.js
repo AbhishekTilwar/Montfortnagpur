@@ -655,7 +655,7 @@ const LandingPage = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                src="/brother-Joman.jpg" 
+                src="/Brother-Jomon.jpg" 
                 className="rounded-3xl shadow-2xl relative z-10"
                 alt="Bro. Jomon Joy - Principal of Montfort School Nagpur"
                 loading="lazy"
