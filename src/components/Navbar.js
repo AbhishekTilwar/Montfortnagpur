@@ -4,7 +4,13 @@ import {
   Menu, 
   X, 
   GraduationCap,
-  ChevronDown
+  ChevronDown,
+  MessageCircle,
+  Facebook,
+  Youtube,
+  Instagram,
+  Twitter,
+  CreditCard
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -38,6 +44,15 @@ const Navbar = () => {
     { name: 'Alumni' },
     { name: 'Gallery' },
     { name: 'Contact Us' }
+  ];
+
+  const socialLinks = [
+    { icon: MessageCircle, href: 'https://wa.me/919975047841', label: 'WhatsApp', color: 'bg-green-500 hover:bg-green-600' },
+    { icon: Facebook, href: 'https://facebook.com/montfortschoolnagpur', label: 'Facebook', color: 'bg-blue-600 hover:bg-blue-700' },
+    { icon: Youtube, href: 'https://youtube.com/montfortschoolnagpur', label: 'YouTube', color: 'bg-red-600 hover:bg-red-700' },
+    { icon: Instagram, href: 'https://instagram.com/montfortschoolnagpur', label: 'Instagram', color: 'bg-gradient-to-br from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700' },
+    { icon: Twitter, href: 'https://twitter.com/montfortschoolnagpur', label: 'Twitter', color: 'bg-sky-500 hover:bg-sky-600' },
+    { icon: CreditCard, href: '/fees', label: 'Fees', color: 'bg-[#c5a059] hover:bg-[#b08d4a]' }
   ];
 
   const aboutLinks = [
@@ -98,12 +113,20 @@ const Navbar = () => {
         </motion.div>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center space-x-6">
-          {navLinks.map((link) => (
-            <div key={link.name} className="relative">
+        <div className="hidden lg:flex items-center space-x-4">
+          {navLinks.map((link, index) => (
+            <motion.div 
+              key={link.name} 
+              className="relative"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
               {link.hasDropdown ? (
                 <div className="relative">
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => {
                       if (link.name === 'About Us') {
                         setAboutDropdown(!aboutDropdown);
@@ -113,66 +136,100 @@ const Navbar = () => {
                         setAboutDropdown(false);
                       }
                     }}
-                    className={`flex items-center gap-1 text-sm font-medium transition-colors ${
-                      isScrolled ? 'text-[#1a2e5a]' : 'text-white'
+                    className={`flex items-center gap-1 text-sm font-medium transition-all duration-300 px-3 py-2 rounded-lg ${
+                      isScrolled ? 'text-[#1a2e5a] hover:bg-[#1a2e5a]/10' : 'text-white hover:bg-white/10'
                     } hover:text-[#c5a059]`}
                   >
                     {link.name}
-                    <ChevronDown 
-                      size={16} 
-                      className={`transition-transform ${
-                        (link.name === 'About Us' && aboutDropdown) || 
-                        (link.name === 'Academics' && academicsDropdown) 
-                          ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </button>
+                    <motion.div
+                      animate={{
+                        rotate: (link.name === 'About Us' && aboutDropdown) || 
+                               (link.name === 'Academics' && academicsDropdown) 
+                          ? 180 : 0
+                      }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <ChevronDown size={14} />
+                    </motion.div>
+                  </motion.button>
                   
                   <AnimatePresence>
                     {((link.name === 'About Us' && aboutDropdown) || 
                      (link.name === 'Academics' && academicsDropdown)) && (
                       <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
+                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
                         className="absolute top-full left-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50"
                       >
-                        {(link.name === 'About Us' ? aboutLinks : academicsLinks).map((dropdownLink) => (
-                          <Link
+                        {(link.name === 'About Us' ? aboutLinks : academicsLinks).map((dropdownLink, index) => (
+                          <motion.div
                             key={dropdownLink.path}
-                            to={dropdownLink.path}
-                            onClick={() => {
-                              setAboutDropdown(false);
-                              setAcademicsDropdown(false);
-                            }}
-                            className={`block px-4 py-3 text-sm transition-colors ${
-                              isActiveLink(dropdownLink.path)
-                                ? 'bg-[#c5a059]/10 text-[#c5a059] font-semibold'
-                                : 'text-gray-700 hover:bg-gray-50 hover:text-[#c5a059]'
-                            }`}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.05 }}
                           >
-                            {dropdownLink.name}
-                          </Link>
+                            <Link
+                              to={dropdownLink.path}
+                              onClick={() => {
+                                setAboutDropdown(false);
+                                setAcademicsDropdown(false);
+                              }}
+                              className={`block px-4 py-3 text-sm transition-all duration-300 ${
+                                isActiveLink(dropdownLink.path)
+                                  ? 'bg-[#c5a059]/10 text-[#c5a059] font-semibold border-l-4 border-[#c5a059]'
+                                  : 'text-gray-700 hover:bg-gray-50 hover:text-[#c5a059] hover:translate-x-2'
+                              }`}
+                            >
+                              {dropdownLink.name}
+                            </Link>
+                          </motion.div>
                         ))}
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
               ) : (
-                <Link
-                  to={link.path || '#'}
-                  className={`text-sm font-medium hover:text-[#c5a059] transition-colors ${
-                    isScrolled ? 'text-[#1a2e5a]' : 'text-white'
-                  } ${isActiveLink(link.path) ? 'text-[#c5a059]' : ''}`}
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  {link.name}
-                </Link>
+                  <Link
+                    to={link.path || '#'}
+                    className={`text-sm font-medium transition-all duration-300 px-3 py-2 rounded-lg ${
+                      isScrolled ? 'text-[#1a2e5a] hover:bg-[#1a2e5a]/10' : 'text-white hover:bg-white/10'
+                    } hover:text-[#c5a059] ${
+                      isActiveLink(link.path) ? 'text-[#c5a059] bg-[#c5a059]/10' : ''
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
               )}
-            </div>
+            </motion.div>
           ))}
-          <button className="bg-[#c5a059] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#b08d4a] transition-all transform hover:scale-105 active:scale-95 shadow-lg">
-            Contact Us
-          </button>
+        </div>
+
+        {/* Social Media Widget */}
+        <div className="hidden lg:flex items-center space-x-2">
+          {socialLinks.map((social, index) => (
+            <motion.a
+              key={social.label}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`w-8 h-8 ${social.color} rounded-full flex items-center justify-center text-white transition-all duration-300 shadow-lg hover:shadow-xl`}
+              aria-label={social.label}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1.2 + index * 0.1 }}
+              whileHover={{ scale: 1.2, rotate: 5 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <social.icon size={16} />
+            </motion.a>
+          ))}
         </div>
 
         {/* Mobile Menu */}
@@ -278,6 +335,30 @@ const Navbar = () => {
                   <button className="w-full bg-[#c5a059] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#b08d4a] transition-all mt-6">
                     Contact Us
                   </button>
+                  
+                  {/* Mobile Social Media */}
+                  <div className="mt-8 pt-6 border-t border-gray-200">
+                    <p className="text-sm font-medium text-gray-700 mb-4">Follow Us</p>
+                    <div className="flex space-x-3">
+                      {socialLinks.map((social, index) => (
+                        <motion.a
+                          key={social.label}
+                          href={social.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`w-10 h-10 ${social.color} rounded-full flex items-center justify-center text-white transition-all duration-300 shadow-lg`}
+                          aria-label={social.label}
+                          initial={{ opacity: 0, scale: 0 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.8 + index * 0.1 }}
+                          whileHover={{ scale: 1.1, rotate: 5 }}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          <social.icon size={18} />
+                        </motion.a>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>
