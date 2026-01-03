@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://montfortschoolnagpur.com/sitemap.xml
+
+# Block common non-content paths
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /*.json
+Disallow: /*.js.map
+Disallow: /static/js/
+Disallow: /static/css/
+
+# Allow search engines to crawl all important pages
+Allow: /
+Allow: /our-founder
+Allow: /brothers-of-st-gabriel
+Allow: /heritage-history
+Allow: /montfortian-aims
+Allow: /vision-mission
+Allow: /principal
+Allow: /vice-principal
+Allow: /middle-school-incharge
+
+# Crawl delay (optional, be respectful)
+Crawl-delay: 1
