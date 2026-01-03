@@ -98,20 +98,12 @@ const Navbar = () => {
         </motion.div>
 
         {/* Desktop Links */}
-        <div className="hidden lg:flex items-center space-x-4">
-          {navLinks.map((link, index) => (
-            <motion.div 
-              key={link.name} 
-              className="relative"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
+        <div className="hidden md:flex items-center space-x-6">
+          {navLinks.map((link) => (
+            <div key={link.name} className="relative">
               {link.hasDropdown ? (
                 <div className="relative">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  <button
                     onClick={() => {
                       if (link.name === 'About Us') {
                         setAboutDropdown(!aboutDropdown);
@@ -121,79 +113,66 @@ const Navbar = () => {
                         setAboutDropdown(false);
                       }
                     }}
-                    className={`flex items-center gap-1 text-sm font-medium transition-all duration-300 px-3 py-2 rounded-lg ${
-                      isScrolled ? 'text-[#1a2e5a] hover:bg-[#1a2e5a]/10' : 'text-white hover:bg-white/10'
+                    className={`flex items-center gap-1 text-sm font-medium transition-colors ${
+                      isScrolled ? 'text-[#1a2e5a]' : 'text-white'
                     } hover:text-[#c5a059]`}
                   >
                     {link.name}
-                    <motion.div
-                      animate={{
-                        rotate: (link.name === 'About Us' && aboutDropdown) || 
-                               (link.name === 'Academics' && academicsDropdown) 
-                          ? 180 : 0
-                      }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <ChevronDown size={14} />
-                    </motion.div>
-                  </motion.button>
+                    <ChevronDown 
+                      size={16} 
+                      className={`transition-transform ${
+                        (link.name === 'About Us' && aboutDropdown) || 
+                        (link.name === 'Academics' && academicsDropdown) 
+                          ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
                   
                   <AnimatePresence>
                     {((link.name === 'About Us' && aboutDropdown) || 
                      (link.name === 'Academics' && academicsDropdown)) && (
                       <motion.div
-                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
                         className="absolute top-full left-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50"
                       >
-                        {(link.name === 'About Us' ? aboutLinks : academicsLinks).map((dropdownLink, index) => (
-                          <motion.div
+                        {(link.name === 'About Us' ? aboutLinks : academicsLinks).map((dropdownLink) => (
+                          <Link
                             key={dropdownLink.path}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.05 }}
+                            to={dropdownLink.path}
+                            onClick={() => {
+                              setAboutDropdown(false);
+                              setAcademicsDropdown(false);
+                            }}
+                            className={`block px-4 py-3 text-sm transition-colors ${
+                              isActiveLink(dropdownLink.path)
+                                ? 'bg-[#c5a059]/10 text-[#c5a059] font-semibold'
+                                : 'text-gray-700 hover:bg-gray-50 hover:text-[#c5a059]'
+                            }`}
                           >
-                            <Link
-                              to={dropdownLink.path}
-                              onClick={() => {
-                                setAboutDropdown(false);
-                                setAcademicsDropdown(false);
-                              }}
-                              className={`block px-4 py-3 text-sm transition-all duration-300 ${
-                                isActiveLink(dropdownLink.path)
-                                  ? 'bg-[#c5a059]/10 text-[#c5a059] font-semibold border-l-4 border-[#c5a059]'
-                                  : 'text-gray-700 hover:bg-gray-50 hover:text-[#c5a059] hover:translate-x-2'
-                              }`}
-                            >
-                              {dropdownLink.name}
-                            </Link>
-                          </motion.div>
+                            {dropdownLink.name}
+                          </Link>
                         ))}
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
               ) : (
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <Link
+                  to={link.path || '#'}
+                  className={`text-sm font-medium hover:text-[#c5a059] transition-colors ${
+                    isScrolled ? 'text-[#1a2e5a]' : 'text-white'
+                  } ${isActiveLink(link.path) ? 'text-[#c5a059]' : ''}`}
                 >
-                  <Link
-                    to={link.path || '#'}
-                    className={`text-sm font-medium transition-all duration-300 px-3 py-2 rounded-lg ${
-                      isScrolled ? 'text-[#1a2e5a] hover:bg-[#1a2e5a]/10' : 'text-white hover:bg-white/10'
-                    } hover:text-[#c5a059] ${
-                      isActiveLink(link.path) ? 'text-[#c5a059] bg-[#c5a059]/10' : ''
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
-                </motion.div>
+                  {link.name}
+                </Link>
               )}
-            </motion.div>
+            </div>
           ))}
+          <button className="bg-[#c5a059] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#b08d4a] transition-all transform hover:scale-105 active:scale-95 shadow-lg">
+            Contact Us
+          </button>
         </div>
 
         {/* Mobile Menu */}
